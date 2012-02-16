@@ -1,0 +1,18 @@
+==== vPerf Manager ===
+
+Technology stack:
++ [Akka framework 2.0-RC1]
++ [Spring 3.1.0]
++ [Lift framework 2.3]
++ [VI Java API v.2011]
+
+A tool for vSphere adaptive performance management
+
+* Building project:
+mvn package
+
+* Running project on Jetty server container:
+mvn package -P dev
+
+* Skipping tests:
+mvn package -P dev -DskipTests=true
