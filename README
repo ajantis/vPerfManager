@@ -1,9 +1,9 @@
 ==== vPerf Manager ===
 
 Technology stack:
-+ [Akka framework 2.0-RC1]
++ [Akka framework 2.0]
 + [Spring 3.1.0]
-+ [Lift framework 2.3]
++ [Lift framework 2.4]
 + [VI Java API v.2011]
 
 A tool for vSphere adaptive performance management

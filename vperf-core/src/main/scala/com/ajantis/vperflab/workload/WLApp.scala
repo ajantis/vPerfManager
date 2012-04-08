@@ -9,7 +9,7 @@ import akka.actor.{Props, ActorSystem}
 
 object WLApp extends App {
 
-  runWorkload(nrOfWorkers = 4, nrOfMessages = 10000)
+  runWorkload(nrOfWorkers = 100, nrOfMessages = 100)
 
   // actors and messages ...
 

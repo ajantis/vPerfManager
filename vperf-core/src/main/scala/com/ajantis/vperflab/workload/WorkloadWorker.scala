@@ -4,12 +4,21 @@ import akka.actor.Actor
 import akka.util.Duration._
 import java.util.concurrent.TimeUnit
 import akka.util.{FiniteDuration, Duration}
+import org.slf4j.LoggerFactory
+import org.apache.commons.httpclient.methods.GetMethod
+import org.apache.commons.httpclient.{HttpException, HttpStatus, HttpClient}
+import java.io.IOException
 
 /**
  * @author Dmitry Ivanov
  */
 
 class WorkloadWorker extends Actor {
+
+  val logger = LoggerFactory.getLogger(getClass)
+  val httpClient = new HttpClient()
+
+  private val url = "http://ya.ru"
 
   def receive = {
     case Work(iterations) =>
@@ -18,7 +27,7 @@ class WorkloadWorker extends Actor {
 
   protected def doRequests(numberOfIterations: Int): Duration = {
     val waitTimes = 1.to(numberOfIterations).map { i =>
-      new Request().process()
+      new Request(url, httpClient).process()
     }
 
     aggregateWaitTimes(waitTimes)
@@ -34,14 +43,37 @@ class WorkloadWorker extends Actor {
 
 }
 
-class Request {
+class Request(url: String, client: HttpClient) {
 
   def process(): Duration = {
 
     val startTime = System.currentTimeMillis;
 
-    //Thread.sleep(10L)
     //TODO here the work is done
+    val method = new GetMethod(url)
+
+    try {
+      val statusCode = client.executeMethod(method)
+
+      if (statusCode != HttpStatus.SC_OK) {
+        System.err.println("Method failed: " + method.getStatusLine)
+      }
+
+      val responseBody = method.getResponseBody;
+      //System.out.println(new String(responseBody));
+
+    } catch {
+        case e: HttpException => {
+          System.err.println("Fatal protocol violation: " + e.getMessage)
+          e.printStackTrace()
+        }
+        case e: IOException => {
+          System.err.println("Fatal transport error: " + e.getMessage)
+          e.printStackTrace()
+        }
+    } finally {
+      method.releaseConnection();
+    }
 
     Duration(System.currentTimeMillis - startTime, TimeUnit.MILLISECONDS)
   }
