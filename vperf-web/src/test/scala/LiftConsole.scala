@@ -1,3 +1,4 @@
+import com.ajantis.vperflab.web.Boot
 import _root_.com.ajantis.plab.vperfmanager.web.Boot
 import _root_.scala.tools.nsc.MainGenericRunner
 

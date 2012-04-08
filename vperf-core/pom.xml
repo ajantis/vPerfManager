@@ -10,7 +10,7 @@
 
     <parent>
         <artifactId>vperfmanager</artifactId>
-        <groupId>com.ajantis.plab</groupId>
+        <groupId>com.ajantis.vperflab</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 

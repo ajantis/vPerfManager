@@ -13,3 +13,5 @@ target
 *.ipr
 *.tmp
 *.db
+.DS_Store
+**/.DS_Store
