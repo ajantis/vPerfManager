@@ -1,9 +1,9 @@
 package com.ajantis.vperflab.web.snippet
 
-import com.ajantis.plab.vperfmanager.web.model.User
 import net.liftweb.util.Props
 import net.liftweb.sitemap.Loc
 import net.liftweb.widgets.logchanger._
+import com.ajantis.vperflab.web.model.User
 
 /**
  * @author Dmitry Ivanov

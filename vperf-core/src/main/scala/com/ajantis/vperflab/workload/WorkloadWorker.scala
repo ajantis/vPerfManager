@@ -18,7 +18,7 @@ class WorkloadWorker extends Actor {
   val logger = LoggerFactory.getLogger(getClass)
   val httpClient = new HttpClient()
 
-  private val url = "http://ya.ru"
+  private val url = "http://stg.spb.ats.ambiqtech.ru:8080/ats/healthcheck"
 
   def receive = {
     case Work(iterations) =>

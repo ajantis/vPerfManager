@@ -1,15 +1,17 @@
 package com.ajantis.vperflab.workload
 
 import akka.actor.{Props, ActorSystem}
+import org.springframework.stereotype.Component
 
 
 /**
  * @author Dmitry Ivanov
  */
 
-object WLApp extends App {
+@Component
+class WLApp {
 
-  runWorkload(nrOfWorkers = 100, nrOfMessages = 100)
+  //runWorkload(nrOfWorkers = 100, nrOfMessages = 100)
 
   // actors and messages ...
 
