@@ -16,6 +16,7 @@
         <module>vperf-core</module>        
         <module>vperf-web</module>
         <module>vperf-client</module>
+        <module>iozone-wrapper</module>
     </modules>
 
     <properties>
