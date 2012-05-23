@@ -76,6 +76,11 @@
             <artifactId>commons-httpclient</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ajantis.vperflab</groupId>
+            <artifactId>iozone-wrapper</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

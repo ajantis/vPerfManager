@@ -7,7 +7,7 @@ import _root_.net.liftweb.http.provider._
 import _root_.net.liftweb.sitemap._
 import _root_.net.liftweb.mapper.{DB, Schemifier, DefaultConnectionIdentifier, StandardDBVendor}
 import _root_.net.liftweb.widgets.logchanger._
-import model.User
+import model.{Experiment, User}
 import snippet.LogLevel
 
 /**
@@ -30,15 +30,16 @@ class Boot extends Bootable {
     }
 
     // where to search snippet
-    val snippetPackages = List("com.ajantis.plab.vperfmanager.web")
+    val snippetPackages = List("com.ajantis.vperflab.web")
 
     snippetPackages.foreach(LiftRules.addToPackages(_))
 
-    Schemifier.schemify(true, Schemifier.infoF _, User)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Experiment)
 
     // Build SiteMap
     def sitemap() = SiteMap(
       Menu("Home") / "index", // >> User.AddUserMenusAfter,
+      Menu("New experiment") / "experiment" / "new",
       LogLevel.menu // adding a menu for log level changer snippet page. By default it's /loglevel/change
     )
 

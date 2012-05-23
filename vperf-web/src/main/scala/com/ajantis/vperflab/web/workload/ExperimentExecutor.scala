@@ -19,14 +19,14 @@ object ExperimentExecutor {
 
   lazy val currentTime: Box[Date] = DependencyFactory.inject[Date] // inject the date
 
-  def execute(exp: Experiment) = {
-    val executionStats = ExecutionStatistics.create.experiment(exp).execStartTime(currentTime)
+  def execute(exp: Experiment) {
+    val executionStats = ExecutionStatistics.create.experiment(exp).execStartTime(currentTime.getOrElse(new Date()))
 
     try {
-      workloadSystem.runWorkload(exp.clients.is, exp.iterations.is)
+      workloadSystem.runWorkload(exp.clients.is.toInt, exp.iterations.is.toInt)
       // TODO executionStats set end time + result
     } catch {
-      case _ => logger.error(_)
+      case e: Exception => logger.error(e.getMessage, e)
     }
   }
 

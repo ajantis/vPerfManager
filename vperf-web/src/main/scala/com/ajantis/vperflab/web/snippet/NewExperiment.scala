@@ -20,6 +20,8 @@ class NewExperiment {
 
       if(immediateRun)
         ExperimentExecutor.execute(exp)
+
+      S.notice("Experiment is submitted")
     }
     else {
       S.error("Experiment name cannot be empty!")
@@ -33,9 +35,10 @@ class NewExperiment {
     var immediateRun = false
 
     ".name" #> SHtml.onSubmit( name = _ ) &
-    ".iterations_count" #> SHtml.onSubmit( iterationsCount = _ ) &
+    ".iterations_count" #> SHtml.onSubmit(s => iterationsCount = s.toInt) &
     ".run_immediately" #> SHtml.checkbox(immediateRun, immediateRun = _ ) &
-    ".clients_count" #> SHtml.onSubmit( clientsCount = _ )
+    ".clients_count" #> SHtml.onSubmit(s => clientsCount = s.toInt ) &
+    ":submit" #> SHtml.onSubmitUnit( () => create(name, iterationsCount, clientsCount, immediateRun) )
   }
 
 }

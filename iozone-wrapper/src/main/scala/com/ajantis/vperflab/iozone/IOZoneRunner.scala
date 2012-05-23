@@ -32,7 +32,7 @@ class IOZoneRunner(val iozoneHomePath: String){
         case TIMEOUT =>
           caller ! "react timeout"
         case proc:Process =>
-          println("entering first actor " + Thread.currentThread)
+
           val streamReader = new java.io.InputStreamReader(proc.getInputStream)
           val bufferedReader = new java.io.BufferedReader(streamReader)
           val stringBuilder = new java.lang.StringBuilder()

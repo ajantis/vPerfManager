@@ -167,6 +167,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.ajantis.vperflab</groupId>
+                <artifactId>iozone-wrapper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-actor</artifactId>
                 <version>${akka.version}</version>

@@ -12,8 +12,8 @@
 
     <context:annotation-config />
 
-    <context:component-scan base-package="com.ajantis.vperflab.vperfmanager">
-        <context:exclude-filter type="regex" expression="com\.ajantis\.plab\.vperfmanager\.web\..*"/>
+    <context:component-scan base-package="com.ajantis.vperflab">
+        <context:exclude-filter type="regex" expression="com\.ajantis\.vperflab\.web\..*"/>
     </context:component-scan>
 
 </beans>
