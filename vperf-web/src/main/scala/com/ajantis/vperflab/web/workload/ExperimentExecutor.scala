@@ -3,9 +3,9 @@ package com.ajantis.vperflab.web.workload
 import com.ajantis.vperflab.workload.WLApp
 import com.ajantis.vperflab.web.model.{ExecutionStatistics, Experiment}
 import java.util.Date
-import com.ajantis.plab.vperfmanager.web.lib.DependencyFactory
 import net.liftweb.common.{Logger, Box}
 import com.ajantis.vperflab.web.lib.SpringAdapter._
+import com.ajantis.vperflab.web.lib.DependencyFactory
 
 /**
  * @author Dmitry Ivanov (divanov@ambiqtech.ru)

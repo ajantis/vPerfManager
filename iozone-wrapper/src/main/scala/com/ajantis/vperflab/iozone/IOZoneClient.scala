@@ -3,24 +3,24 @@ package com.ajantis.vperflab.iozone
 import java.io._
 import scala.actors._
 import scala.actors.Actor._
+import com.ajantis.vperflab.client.vPerfClient
 
 /**
  * @author Dmitry Ivanov (divanov@ambiqtech.ru)
  *         Ambiq Technology Ltd
  */
-class IOZoneRunner(val iozoneHomePath: String){
+class IOZoneClient(val iozoneHomePath: String) extends vPerfClient {
 
   private val caller = self
   private val WAIT_TIME = 60000
 
-  private val sampleFileName = iozoneHomePath + "/sample.tmp"
+  private val sampleFileName = "sample.tmp"
   private val sampleFileSize = 50000 // 50 Mb
 
   require( { val file = new File(iozoneHomePath); file.exists() && file.isDirectory },
     "IOZone home doesn't exist or not a directory!")
 
-  // returns command output
-  def runIO(): Option[String] =
+  override def run(): Option[String] =
     run(iozoneHomePath+"/iozone -f "+ sampleFileName + " -s " +sampleFileSize)
 
 

@@ -11,10 +11,6 @@ import org.springframework.stereotype.Component
 @Component
 class WLApp {
 
-  //runWorkload(nrOfWorkers = 100, nrOfMessages = 100)
-
-  // actors and messages ...
-
   def runWorkload(nrOfWorkers: Int, nrOfMessages: Int) {
     // Create an Akka system
     val system = ActorSystem("WorkloadSystem")

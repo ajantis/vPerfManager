@@ -9,7 +9,7 @@ package com.ajantis.vperflab.iozone
 object SampleRun extends App {
   val runner = new IOZoneRunner("C:\\iozone")
 
-  runner.runIO() match {
+  runner.run() match {
     case Some(s) => println(s)
     case None => println("No result received!")
   }

@@ -81,6 +81,11 @@
             <artifactId>iozone-wrapper</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ajantis.vperflab</groupId>
+            <artifactId>vperf-client</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

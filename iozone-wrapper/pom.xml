@@ -18,6 +18,12 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.ajantis.vperflab</groupId>
+            <artifactId>vperf-client</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
