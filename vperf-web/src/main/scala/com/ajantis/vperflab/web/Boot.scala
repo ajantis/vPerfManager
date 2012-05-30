@@ -7,7 +7,9 @@ import _root_.net.liftweb.http.provider._
 import _root_.net.liftweb.sitemap._
 import _root_.net.liftweb.mapper.{DB, Schemifier, DefaultConnectionIdentifier, StandardDBVendor}
 import _root_.net.liftweb.widgets.logchanger._
-import model.{Experiment, User}
+import net.liftweb.widgets.flot._
+import net.liftweb.http.ResourceServer
+import model.{Iteration, Experiment, User}
 import snippet.LogLevel
 import net.liftweb.sitemap.Loc.Hidden
 
@@ -35,7 +37,7 @@ class Boot extends Bootable {
 
     snippetPackages.foreach(LiftRules.addToPackages(_))
 
-    Schemifier.schemify(true, Schemifier.infoF _, User, Experiment)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Experiment, Iteration)
 
     // Build SiteMap
     def sitemap() = SiteMap(
@@ -70,6 +72,11 @@ class Boot extends Bootable {
         RewriteResponse(
           "experiments" ::  "view" :: Nil, Map("expId" -> experimentId)
         )
+    })
+
+    Flot.init
+    ResourceServer.allow({
+      case "flot" :: "jquery.flot.stack.js" :: Nil => true
     })
 
     // instantiating of loglevel changer widget

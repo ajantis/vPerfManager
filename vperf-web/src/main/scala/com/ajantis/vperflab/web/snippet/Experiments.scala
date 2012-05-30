@@ -9,6 +9,7 @@ import xml.NodeSeq
 import net.liftweb.common.Full
 import net.liftweb.mapper.By
 import net.liftweb.http.js.JsCmds
+import collection.mutable.ArrayBuffer
 
 /**
  * @author Dmitry Ivanov (divanov@ambiqtech.ru)
@@ -31,13 +32,12 @@ class Experiments {
         Experiment.find(By(Experiment.id, expId.toInt)) match {
           case Full(experiment) => {
             ".experiment_name *" #> experiment.name.is &
-            ".clients_count *" #> experiment.clients.is &
-            ".iterations_count *" #> experiment.iterations.is &
-            ".run_btn [onclick]" #> SHtml.ajaxInvoke( () => {runExperiment(experiment); JsCmds.Alert("Running!")}) &
+            ".iterations_count *" #> experiment.getIterations.length &
+            ".run_btn [onclick]" #> SHtml.ajaxInvoke( () => { runExperiment(experiment); JsCmds.Alert("Running!") }) &
             ".del_btn [onclick]" #> SHtml.ajaxInvoke( () => {
               deleteExperiment(experiment) match {
-                case true => JsCmds.Alert("Experiment is deleted.") && JsCmds.RedirectTo("/experiments/")
-                case _ => JsCmds.Alert("Experiment is not deleted!") && JsCmds.RedirectTo("")
+                case true => (JsCmds.Alert("Experiment is deleted.") & JsCmds.RedirectTo("/experiments/"))
+                case _ => (JsCmds.Alert("Experiment is not deleted!") & JsCmds.RedirectTo(""))
               }
             })
           }
@@ -56,21 +56,24 @@ class Experiments {
 
   def add = {
     var name = ""
-    var iterationsCount = 0
-    var clientsCount = 0
+    var iterationDuration = 0L
+    var clientsCountArr = Array[Long]()
     var immediateRun = false
 
+    def processClientsCountArr(s: String) = {
+      s.split(',').map(_.toLong)
+    }
+
     ".name" #> SHtml.onSubmit( name = _ ) &
-    ".iterations_count" #> SHtml.onSubmit(s => iterationsCount = s.toInt) &
+    ".iteration_duration" #> SHtml.onSubmit(s => iterationDuration = s.toLong) &
     ".run_immediately" #> SHtml.checkbox(immediateRun, immediateRun = _ ) &
-    ".clients_count" #> SHtml.onSubmit(s => clientsCount = s.toInt ) &
-    ":submit" #> SHtml.onSubmitUnit( () => create(name, iterationsCount, clientsCount, immediateRun) )
+    ".clients_count_arr" #> SHtml.onSubmit(s => clientsCountArr = processClientsCountArr(s) ) &
+    ":submit" #> SHtml.onSubmitUnit( () => create(name, iterationDuration, clientsCountArr, immediateRun) )
   }
 
-  private def create(experimentName: String, iterCount: Int, clientsCount: Int, immediateRun: Boolean = false) {
+  private def create(experimentName: String, iterDuration: Long, clientsCountArr: Array[Long], immediateRun: Boolean = false) {
     if (experimentName != ""){
-      val exp = Experiment.create.name(experimentName).clients(clientsCount).iterations(iterCount)
-      exp.save()
+      val exp = Experiment.createAndSave(experimentName, iterDuration, clientsCountArr)
 
       if(immediateRun)
         runExperiment(exp)

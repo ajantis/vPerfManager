@@ -15,7 +15,7 @@ class IOZoneClient(val iozoneHomePath: String) extends vPerfClient {
   private val WAIT_TIME = 60000
 
   private val sampleFileName = "sample.tmp"
-  private val sampleFileSize = 50000 // 50 Mb
+  private val sampleFileSize = 20000 // 50 Mb
 
   require( { val file = new File(iozoneHomePath); file.exists() && file.isDirectory },
     "IOZone home doesn't exist or not a directory!")

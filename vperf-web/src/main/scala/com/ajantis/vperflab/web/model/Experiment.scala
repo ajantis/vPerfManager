@@ -11,17 +11,24 @@ import net.liftweb.mapper._
 class Experiment extends LongKeyedMapper[Experiment] with IdPK {
 
   def getSingleton = Experiment
-
   object name extends MappedString(this, 128)
-
-  object iterations extends MappedLong(this)
-
-  object clients extends MappedLong(this)
+  def getIterations: List[Iteration] = Iteration.findAll(By(Iteration.experiment, this))
 
 }
 
 object Experiment extends Experiment with LongKeyedMetaMapper[Experiment] {
   override def dbTableName = "experiments"
+
+  def createAndSave(name: String, iterationDuration: Long, clientVariation: Array[Long]) = {
+    val experiment = Experiment.create.name(name)
+    experiment.save()
+
+    val iterations = clientVariation.map(
+      clientCount => Iteration.create.duration(iterationDuration).clients(clientCount).experiment(experiment)
+    )
+    iterations.foreach(i => i.save())
+    experiment
+  }
 }
 
 
