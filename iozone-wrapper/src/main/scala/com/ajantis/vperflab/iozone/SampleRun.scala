@@ -7,7 +7,7 @@ package com.ajantis.vperflab.iozone
  */
 
 object SampleRun extends App {
-  val runner = new IOZoneRunner("C:\\iozone")
+  val runner = new IOZoneClient("C:\\iozone")
 
   runner.run() match {
     case Some(s) => println(s)

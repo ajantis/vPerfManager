@@ -19,8 +19,6 @@ class WorkloadWorker extends Actor {
 
   val logger = LoggerFactory.getLogger(getClass)
 
-  private val url = "http://stg.spb.ats.ambiqtech.ru:8080/ats/healthcheck"
-
   def receive = {
     case Work(iterations) =>
       sender ! ResultWaitTime(doRequests(iterations)) // perform the work
@@ -28,7 +26,7 @@ class WorkloadWorker extends Actor {
 
   protected def doRequests(numberOfIterations: Int): Duration = {
     val waitTimes = 1.to(numberOfIterations).map { i =>
-      new Request(url, new IOZoneClient("/opt/local/bin/")).process()
+      new Request(new IOZoneClient("C:\\iozone\\")).process()
     }
 
     aggregateWaitTimes(waitTimes)
@@ -44,7 +42,7 @@ class WorkloadWorker extends Actor {
 
 }
 
-class Request(url: String, client: vPerfClient) {
+class Request(client: vPerfClient) {
 
   def process(): Duration = {
 

@@ -9,6 +9,7 @@ import _root_.net.liftweb.mapper.{DB, Schemifier, DefaultConnectionIdentifier, S
 import _root_.net.liftweb.widgets.logchanger._
 import model.{Experiment, User}
 import snippet.LogLevel
+import net.liftweb.sitemap.Loc.Hidden
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -39,7 +40,9 @@ class Boot extends Bootable {
     // Build SiteMap
     def sitemap() = SiteMap(
       Menu("Home") / "index", // >> User.AddUserMenusAfter,
-      Menu("New experiment") / "experiment" / "new",
+      Menu("Experiments") / "experiments" / "index",
+      Menu("New experiment") / "experiments" / "new",
+      Menu("Experiment") / "experiments" / "view" >> Hidden,
       LogLevel.menu // adding a menu for log level changer snippet page. By default it's /loglevel/change
     )
 
@@ -61,6 +64,14 @@ class Boot extends Bootable {
 
     LiftRules.loggedInTest = Full(() => User.loggedIn_?)
 
+    LiftRules.statelessRewrite.prepend(NamedPF("ParticularExperimentRewrite") {
+      case RewriteRequest(
+      ParsePath("experiments" :: experimentId :: Nil , _, _,_), _, _) if (isNumeric(experimentId)) =>
+        RewriteResponse(
+          "experiments" ::  "view" :: Nil, Map("expId" -> experimentId)
+        )
+    })
+
     // instantiating of loglevel changer widget
     LogLevelChanger.init
 
@@ -72,5 +83,9 @@ class Boot extends Bootable {
    */
   private def makeUtf8(req: HTTPRequest) {
     req.setCharacterEncoding("UTF-8")
+  }
+
+  private def isNumeric(str: String) = {
+    str.matches("\\d+")
   }
 }

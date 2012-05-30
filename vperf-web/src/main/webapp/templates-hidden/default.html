@@ -21,27 +21,9 @@
 
 
     <style type="text/css">
-        /* <![CDATA[ */
-        .edit_error_class {
-        display: block;
-        color: red;
-        }
-
-        .lift_error {
-        color: red;
-        }
-
-        .lift_warning {
-        color: yellow;
-        }
-
-        .lift_notice {
-        }
-
-        /* ]]> */
     </style>
 </head>
-<body>
+<body data-spy="scroll" data-offset="500">
 
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -50,60 +32,40 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/index">vPerformance Laboratory</a>
-            <img alt="" id="ajax-loader" style="display:none; margin-bottom: 0px; margin-left: 5px" src="/images/ajax-loader.gif"/>
             <div class="nav-collapse">
-                <span class="lift:Menu.builder?li_item:class=active;ul:class=nav" />
-            </div><!--/.nav-collapse -->
+                <span class="lift:Menu.builder?linkToSelf=true&li_item:class=active;ul:class=nav" />
+            </div>
 
-            <span class="lift:Msgs?showAll=true"/>
+            <img alt="" id="ajax-loader" style="display:none; margin-bottom: 0px; margin-left: 5px" src="/images/ajax-loader.gif"/>
 
         </div>
     </div>
 
-    <div class="container">
+    <div class="container max-height no-overflow">
+
+        <lift:MsgsStyled>
+            <div class="alert-message error">
+                <p>name must have 3 characters</p>
+            </div>
+        </lift:MsgsStyled>
 
         <!-- Main hero unit for a primary marketing message or call to action -->
-        <div class="hero-unit">
-            <!--
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-            -->
+        <div id="hero_content">
+            <!-- The HTML content will go here -->
         </div>
 
         <div id="content">
             <!-- The HTML content will go here -->
         </div>
 
-        <!-- Example row of columns -->
-        <!--
-        <div class="row">
-            <div class="span4">
-                <h2>Heading</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                <p><a class="btn" href="#">View details &raquo;</a></p>
-            </div>
-            <div class="span4">
-                <h2>Heading</h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                <p><a class="btn" href="#">View details &raquo;</a></p>
-            </div>
-            <div class="span4">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                <p><a class="btn" href="#">View details &raquo;</a></p>
-            </div>
-        </div>-->
-
         <hr/>
 
         <footer>
-            <p>&copy; <a href="http://www.liftweb.net"><i>Lift</i></a>
-                is Copyright 2007-2010 WorldWide Conferencing, LLC.  Distributed under an Apache 2.0 License.</p>
+            <p>&copy; <a href="http://www.vperflab.com"><i>vPerfLab Inc.</i></a></p>
         </footer>
-
     </div>
 
 </div>
@@ -111,7 +73,20 @@
 <!-- javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="/bootstrap/js/bootstrap.js"></script>
+<!--<script src="/bootstrap/js/bootstrap.js"></script> -->
+<script src="/bootstrap/js/jquery.js"></script>
+<script src="/bootstrap/js/bootstrap-transition.js"></script>
+<script src="/bootstrap/js/bootstrap-alert.js"></script>
+<script src="/bootstrap/js/bootstrap-modal.js"></script>
+<script src="/bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="/bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="/bootstrap/js/bootstrap-tab.js"></script>
+<script src="/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="/bootstrap/js/bootstrap-popover.js"></script>
+<script src="/bootstrap/js/bootstrap-button.js"></script>
+<script src="/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="/bootstrap/js/bootstrap-carousel.js"></script>
+<script src="/bootstrap/js/bootstrap-typeahead.js"></script>
 
 </body>
 </html>

@@ -28,8 +28,6 @@ class AppTest extends TestCase("app") {
    */
   def testOK() = assertTrue(true)
 
-  // def testKO() = assertTrue(false);
-
   /**
    * Tests to make sure the project's XML files are well-formed.
    *
@@ -48,22 +46,6 @@ class AppTest extends TestCase("app") {
     def wellFormed(file: File) {
       if (file.isDirectory)
         for (f <- file.listFiles) wellFormed(f)
-
-      /*
-      if (file.isFile && file.exists && handledXml(file.getName)) {
-        try {
-          import java.io.FileInputStream
-          val fis = new FileInputStream(file)
-          try {
-            XML.load(fis)
-          } finally {
-            fis.close()
-          }
-        } catch {
-          case e: _root_.org.xml.sax.SAXParseException => failed = file :: failed
-        }
-      }
-      */
 
       if (file.isFile && file.exists && handledXHtml(file.getName)) {
         PCDataXmlParser(new _root_.java.io.FileInputStream(file.getAbsolutePath)) match {
