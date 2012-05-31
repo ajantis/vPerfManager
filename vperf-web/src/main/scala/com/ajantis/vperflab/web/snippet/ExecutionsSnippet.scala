@@ -21,19 +21,20 @@ class ExecutionsSnippet {
       case Full(execId) => {
         Execution.find(By(Execution.id, execId.toInt)) match {
           case Full(execution: Execution) => {
-
             ".experiment_name *" #> (execution.experiment.obj.map(_.name.is).openOr("N/A")) &
             ".exec_start *" #> execution.execStartTime.is.toString &
-            ".graph_render *" #> new FlotReport().graph(NodeSeq.Empty, createExecutionDataValues(execution)) &
+            ".wait_time_graph_render *" #>
+                new FlotReport().graph(NodeSeq.Empty, List(getExecWaitTimeVals(execution)), "wait_time_graph_area") &
+            ".clients_count_graph_render *" #>
+                new FlotReport().stackBar(NodeSeq.Empty, List(getExecClientCountVals(execution)), "clients_count_graph_area") &
             ".iteration_executions *" #> {
-              "li *" #> execution.getIterationExecutions.map (
+            "li *" #> execution.getIterationExecutions.map (
                 (iterExec: IterationExecution) => {
                   ".duration" #> (iterExec.execEndTime.is.getTime - iterExec.execStartTime.is.getTime).toString &
                   ".wait_time" #> (iterExec.result.is) &
                   ".clients_count" #> (iterExec.iteration.obj.map(_.clients.is).openOr(0L))
               })
             }
-
           }
           case _ => {
             S.warning("Execution is not found!")
@@ -48,7 +49,7 @@ class ExecutionsSnippet {
     }
   }
 
-  private def createExecutionDataValues(execution: Execution) = {
+  private def getExecWaitTimeVals(execution: Execution): List[(Double, Double)] = {
 
     val iterExecs = execution.getIterationExecutions
     val startTime = execution.execStartTime.is.getTime
@@ -58,22 +59,26 @@ class ExecutionsSnippet {
         ((iterExec.execStartTime.is.getTime - startTime).toDouble, iterExec.result.is.toDouble)
     )
 
-    val timeYAxis = waitTimes.map(_._1)
+    waitTimes
+  }
+
+  private def getExecClientCountVals(execution: Execution): List[(Double, Double)] = {
+
+    val iterExecs = execution.getIterationExecutions
+    val startTime = execution.execStartTime.is.getTime
+    val timeXAxis = iterExecs.map( (iterExec: IterationExecution) => (iterExec.execStartTime.is.getTime - startTime).toDouble )
 
     val iterationsClients = execution.experiment.obj match {
       case Full(exp) => {
-        exp.getIterations.map(i => (i.clients.is * 1000).toDouble)
+        exp.getIterations.map(i => (i.clients.is).toDouble)
       }
       case _ => {
         logger.error("No experiment for execution!")
         Nil
       }
     }
-
-    val clientsPerTime = timeYAxis.zip(iterationsClients)
-
-    List(waitTimes, clientsPerTime)
-
+    val clientsPerTime = timeXAxis.zip(iterationsClients)
+    clientsPerTime
   }
 
 }

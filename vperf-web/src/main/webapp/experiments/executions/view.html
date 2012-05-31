@@ -10,9 +10,20 @@
                 results
             </div>
 
-            <h2>Execution graph</h2>
-            <div id="graph_area" style="width:600px;height:400px;"></div>
-            <div class="graph_render"></div>
+            <!-- Example row of columns -->
+            <div class="row">
+                <script type="text/javascript" src="/classpath/flot/jquery.flot.stack.js"></script>
+                <div class="span6">
+                    <h2>Wait time</h2>
+                    <div id="wait_time_graph_area" style="width:500px;height:300px;"></div>
+                    <div class="wait_time_graph_render"></div>
+                </div>
+                <div class="span6">
+                    <h2>Clients</h2>
+                    <div id="clients_count_graph_area" style="width:500px;height:300px;"></div>
+                    <div class="clients_count_graph_render"></div>
+                </div>
+            </div>
 
             <h2>Results: </h2>
             <ul class="iteration_executions">
