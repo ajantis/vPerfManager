@@ -1,4 +1,4 @@
-package com.ajantis.vperflab.web.model
+package com.ajantis.vperflab.model
 
 import net.liftweb.mapper._
 
@@ -11,8 +11,12 @@ import net.liftweb.mapper._
 class Experiment extends LongKeyedMapper[Experiment] with IdPK {
 
   def getSingleton = Experiment
+
   object name extends MappedString(this, 128)
+
   def getIterations: List[Iteration] = Iteration.findAll(By(Iteration.experiment, this))
+
+  def getExecutions: List[Execution] = Execution.findAll(By(Execution.experiment, this))
 
 }
 

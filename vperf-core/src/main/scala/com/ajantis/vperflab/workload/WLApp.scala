@@ -2,6 +2,8 @@ package com.ajantis.vperflab.workload
 
 import akka.actor.{Props, ActorSystem}
 import org.springframework.stereotype.Component
+import com.ajantis.vperflab.model.{Execution, Iteration, Experiment}
+import java.util.Date
 
 
 /**
@@ -11,12 +13,12 @@ import org.springframework.stereotype.Component
 @Component
 class WLApp {
 
-  def runWorkload(nrOfWorkers: Int, nrOfMessages: Int) {
+  def runWorkload(execution: Execution, iteration: Iteration, nrOfWorkers: Int, nrOfMessages: Int) {
     // Create an Akka system
     val system = ActorSystem("WorkloadSystem")
 
     // create the result listener, which will print the result and shutdown the system
-    val listener = system.actorOf(Props[WorkloadListener], name = "WorkloadListener")
+    val listener = system.actorOf(Props(new WorkloadListener(iteration, execution)), name = "WorkloadListener")
 
     // create the master
     val master = system.actorOf(Props(new WorkloadDirector(

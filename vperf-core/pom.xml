@@ -15,6 +15,13 @@
     </parent>
 
     <dependencies>
+
+        <dependency>
+            <groupId>net.liftweb</groupId>
+            <artifactId>lift-mapper_${scala.version}</artifactId>
+            <version>2.4</version>
+        </dependency>
+
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>

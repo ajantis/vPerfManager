@@ -26,7 +26,7 @@ class WorkloadWorker extends Actor {
 
   protected def doRequests(numberOfIterations: Int): Duration = {
     val waitTimes = 1.to(numberOfIterations).map { i =>
-      new Request(new IOZoneClient("C:\\iozone\\")).process()
+      new Request(new IOZoneClient("/opt/local/bin/")).process()
     }
 
     aggregateWaitTimes(waitTimes)

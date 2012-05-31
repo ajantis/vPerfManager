@@ -1,4 +1,4 @@
-package com.ajantis.vperflab.web.model
+package com.ajantis.vperflab.model
 
 import net.liftweb.mapper._
 

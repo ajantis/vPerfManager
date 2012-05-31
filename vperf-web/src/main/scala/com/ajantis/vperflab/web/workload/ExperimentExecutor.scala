@@ -4,8 +4,8 @@ import com.ajantis.vperflab.workload.WLApp
 import net.liftweb.common.{Logger, Box}
 import com.ajantis.vperflab.web.lib.SpringAdapter._
 import com.ajantis.vperflab.web.lib.DependencyFactory
-import com.ajantis.vperflab.web.model.{Iteration, ExecutionStatistics, Experiment}
 import java.util.Date
+import com.ajantis.vperflab.model.{Execution, Experiment}
 
 /**
  * @author Dmitry Ivanov (divanov@ambiqtech.ru)
@@ -20,7 +20,9 @@ object ExperimentExecutor {
   lazy val currentTime: Box[Date] = DependencyFactory.inject[Date] // inject the date
 
   def execute(exp: Experiment) {
-    val executionStats = ExecutionStatistics.create.experiment(exp).execStartTime(currentTime.getOrElse(new Date()))
+    val execution = Execution.create.experiment(exp).execStartTime(currentTime.getOrElse(new Date()))
+    execution.save()
+
     val iterations = exp.getIterations
 
     try {
@@ -29,7 +31,7 @@ object ExperimentExecutor {
       for (iter <- iterations){
         logger.debug("Iteration start: " + currentTime.getOrElse(new Date()))
 
-        workloadSystem.runWorkload(iter.clients.is.toInt, 1)
+        workloadSystem.runWorkload(execution, iter, iter.clients.is.toInt, iter.clients.is.toInt)
 
         Thread.sleep(iter.duration.is)
 
@@ -37,10 +39,14 @@ object ExperimentExecutor {
 
       }
 
-      // TODO executionStats set end time + result
     } catch {
       case e: Exception => logger.error(e.getMessage, e)
     }
+
+    val executionEndTime =  currentTime.getOrElse(new Date())
+
+    execution.duration(executionEndTime.getTime - execution.execStartTime.getTime)
+    execution.save()
   }
 
 }

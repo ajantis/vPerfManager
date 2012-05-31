@@ -1,6 +1,7 @@
 package com.ajantis.vperflab.workload
 
 import akka.util.Duration
+import com.ajantis.vperflab.model.Experiment
 
 /**
  * @author Dmitry Ivanov

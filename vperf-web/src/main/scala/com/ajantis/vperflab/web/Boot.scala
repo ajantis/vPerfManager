@@ -9,7 +9,8 @@ import _root_.net.liftweb.mapper.{DB, Schemifier, DefaultConnectionIdentifier, S
 import _root_.net.liftweb.widgets.logchanger._
 import net.liftweb.widgets.flot._
 import net.liftweb.http.ResourceServer
-import model.{Iteration, Experiment, User}
+import com.ajantis.vperflab.model.{Iteration, Experiment, IterationExecution, Execution}
+import model.User
 import snippet.LogLevel
 import net.liftweb.sitemap.Loc.Hidden
 
@@ -37,7 +38,7 @@ class Boot extends Bootable {
 
     snippetPackages.foreach(LiftRules.addToPackages(_))
 
-    Schemifier.schemify(true, Schemifier.infoF _, User, Experiment, Iteration)
+    Schemifier.schemify(true, Schemifier.infoF _, User, Experiment, Iteration, IterationExecution, Execution)
 
     // Build SiteMap
     def sitemap() = SiteMap(
@@ -45,6 +46,7 @@ class Boot extends Bootable {
       Menu("Experiments") / "experiments" / "index",
       Menu("New experiment") / "experiments" / "new",
       Menu("Experiment") / "experiments" / "view" >> Hidden,
+      Menu("Execution") / "experiments" / "executions" / "view" >> Hidden,
       LogLevel.menu // adding a menu for log level changer snippet page. By default it's /loglevel/change
     )
 
@@ -71,6 +73,14 @@ class Boot extends Bootable {
       ParsePath("experiments" :: experimentId :: Nil , _, _,_), _, _) if (isNumeric(experimentId)) =>
         RewriteResponse(
           "experiments" ::  "view" :: Nil, Map("expId" -> experimentId)
+        )
+    })
+
+    LiftRules.statelessRewrite.prepend(NamedPF("ParticularExecutionRewrite") {
+      case RewriteRequest(
+      ParsePath("experiments" :: "executions" :: executionId :: Nil , _, _,_), _, _) if (isNumeric(executionId)) =>
+        RewriteResponse(
+          "experiments" :: "executions" :: "view" :: Nil, Map("execId" -> executionId)
         )
     })
 

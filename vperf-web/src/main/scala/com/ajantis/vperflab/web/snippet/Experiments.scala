@@ -3,13 +3,12 @@ package com.ajantis.vperflab.web.snippet
 import net.liftweb.util._
 import Helpers._
 import net.liftweb.http.{S, SHtml}
-import com.ajantis.vperflab.web.model.Experiment
 import com.ajantis.vperflab.web.workload.ExperimentExecutor
 import xml.NodeSeq
 import net.liftweb.common.Full
 import net.liftweb.mapper.By
 import net.liftweb.http.js.JsCmds
-import collection.mutable.ArrayBuffer
+import com.ajantis.vperflab.model.{Execution, Experiment}
 
 /**
  * @author Dmitry Ivanov (divanov@ambiqtech.ru)
@@ -33,6 +32,17 @@ class Experiments {
           case Full(experiment) => {
             ".experiment_name *" #> experiment.name.is &
             ".iterations_count *" #> experiment.getIterations.length &
+            ".executions *" #> {
+              "li *" #> experiment.getExecutions.map ( (exec: Execution) =>
+                ".startTime *" #> exec.execStartTime.is.toString
+              )
+            } &
+            ".executions *" #> {
+              "li *" #> experiment.getExecutions.map( (exec: Execution) => {
+                "a *" #> exec.execStartTime.is.toString &
+                "a [href]" #> ("/experiments/executions/" + exec.id.is.toString)
+              })
+            } &
             ".run_btn [onclick]" #> SHtml.ajaxInvoke( () => { runExperiment(experiment); JsCmds.Alert("Running!") }) &
             ".del_btn [onclick]" #> SHtml.ajaxInvoke( () => {
               deleteExperiment(experiment) match {
@@ -43,13 +53,13 @@ class Experiments {
           }
           case _ => {
             S.warning("Experiment is not found!")
-            "* *" #> NodeSeq.Empty
+            PassThru
           }
         }
       }
       case _ => {
         S.error("Experiment id is not defined!")
-        "* *" #> NodeSeq.Empty
+        PassThru
       }
     }
   }

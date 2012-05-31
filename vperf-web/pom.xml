@@ -28,11 +28,6 @@
         </dependency>
         
         <!-- Web components -->
-        <dependency>
-            <groupId>net.liftweb</groupId>
-            <artifactId>lift-mapper_${scala.version}</artifactId>
-            <version>2.4</version>
-        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>

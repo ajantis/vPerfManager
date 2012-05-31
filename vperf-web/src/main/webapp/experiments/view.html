@@ -2,11 +2,6 @@
     <script id="jquery" src="/classpath/jquery.js" type="text/javascript"/>
     <lift:bind-at name="content">
 
-        <!--<script language="javascript" type="text/javascript" src="/classpath/flot/jquery.flot.stack.js" />-->
-        <h2>Plot of the sine function</h2>
-        <div id="graph_area" style="width:600px;height:400px;"></div>
-        <lift:FlotReport.sine></lift:FlotReport.sine>
-
         <lift:Experiments.view>
 
             <div class="page-header">
@@ -16,6 +11,12 @@
 
             <ul>
                 <li>Iterations: <span class="iterations_count"></span></li>
+            </ul>
+
+            <h3>Executions:</h3>
+
+            <ul class="executions">
+                <li><a href="#">testLink</a></li>
             </ul>
 
             <button class="btn run_btn btn-primary">Run!</button>

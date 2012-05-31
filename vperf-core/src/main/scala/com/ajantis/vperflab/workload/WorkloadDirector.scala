@@ -5,6 +5,7 @@ import akka.actor.{ActorRef, Props, Actor}
 import akka.util.Duration
 import java.util.concurrent.TimeUnit
 import collection.mutable.ArrayBuffer
+import com.ajantis.vperflab.model.{Iteration, Execution, Experiment}
 
 
 /**
