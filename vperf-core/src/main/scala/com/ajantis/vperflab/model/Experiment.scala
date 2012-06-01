@@ -33,6 +33,14 @@ object Experiment extends Experiment with LongKeyedMetaMapper[Experiment] {
     iterations.foreach(i => i.save())
     experiment
   }
+
+  override def delete_!(e: Experiment) = {
+
+    e.getExecutions.foreach(Execution.delete_!(_))
+    e.getIterations.foreach(Iteration.delete_!(_))
+
+    super.delete_!(e)
+  }
 }
 
 

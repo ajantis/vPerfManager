@@ -22,4 +22,12 @@ class Execution extends LongKeyedMapper[Execution] with IdPK {
 
 object Execution extends Execution with LongKeyedMetaMapper[Execution] {
   override def dbTableName = "executions"
+
+  override def delete_!(e: Execution) = {
+
+    e.getIterationExecutions.foreach(IterationExecution.delete_!(_))
+
+    super.delete_!(e)
+  }
+
 }
